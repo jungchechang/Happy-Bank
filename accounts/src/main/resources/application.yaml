@@ -1,0 +1,21 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: account
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: 'sa'
+    password: ''
+    driverClassName: org.h2.Driver
+#  enable h2 console
+  h2:
+    console:
+      enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    # create table in database automatically
+    hibernate:
+      ddl-auto: update
+
