@@ -4,6 +4,7 @@ import com.jungche.accounts.constants.AccountsConstants;
 import com.jungche.accounts.dto.CustomerDto;
 import com.jungche.accounts.dto.ResponseDto;
 import com.jungche.accounts.service.IAccountsService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,5 +33,19 @@ public class accountsController {
                                                            String mobileNumber) {
         CustomerDto customerDto = iAccountsService.fetchAccount(mobileNumber);
         return ResponseEntity.status(HttpStatus.OK).body(customerDto);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<ResponseDto> updateAccountDetails(@Valid @RequestBody CustomerDto customerDto) {
+        boolean isUpdated = iAccountsService.updateAccount(customerDto);
+        if(isUpdated) {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(new ResponseDto(AccountsConstants.STATUS_200, AccountsConstants.MESSAGE_200));
+        }else{
+            return ResponseEntity
+                    .status(HttpStatus.EXPECTATION_FAILED)
+                    .body(new ResponseDto(AccountsConstants.STATUS_417, AccountsConstants.MESSAGE_417_UPDATE));
+        }
     }
 }
