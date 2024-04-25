@@ -4,6 +4,8 @@ import com.jungche.cards.constants.CardsConstants;
 import com.jungche.cards.dto.CardsDto;
 import com.jungche.cards.entity.Cards;
 import com.jungche.cards.exception.CardAlreadyExistsException;
+import com.jungche.cards.exception.ResourceNotFoundException;
+import com.jungche.cards.mapper.CardsMapper;
 import com.jungche.cards.repository.CardsRepository;
 import com.jungche.cards.services.ICardsService;
 import lombok.AllArgsConstructor;
@@ -46,16 +48,27 @@ public class CardsServiceImpl implements ICardsService {
     }
     @Override
     public CardsDto fetchCard(String mobileNumber) {
-        return null;
+        Cards cards = cardsRepository.findByMobileNumber(mobileNumber).orElseThrow(
+                () -> new ResourceNotFoundException("Card", "mobileNumber", mobileNumber)
+        );
+        return CardsMapper.mapToCardsDto(cards, new CardsDto());
     }
 
     @Override
     public boolean updateCard(CardsDto cardsDto) {
-        return false;
+        Cards cards = cardsRepository.findByCardNumber(cardsDto.getCardNumber()).orElseThrow(
+                () -> new ResourceNotFoundException("Card", "CardNumber", cardsDto.getCardNumber()));
+        CardsMapper.mapToCards(cardsDto, cards);
+        cardsRepository.save(cards);
+        return  true;
     }
 
     @Override
     public boolean deleteCard(String mobileNumber) {
-        return false;
+        Cards cards = cardsRepository.findByMobileNumber(mobileNumber).orElseThrow(
+                () -> new ResourceNotFoundException("Card", "mobileNumber", mobileNumber)
+        );
+        cardsRepository.deleteById(cards.getCardId());
+        return true;
     }
 }
