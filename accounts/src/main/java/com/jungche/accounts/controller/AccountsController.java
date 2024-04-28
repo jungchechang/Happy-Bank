@@ -1,6 +1,7 @@
 package com.jungche.accounts.controller;
 
 import com.jungche.accounts.constants.AccountsConstants;
+import com.jungche.accounts.dto.AccountsContactInfoDto;
 import com.jungche.accounts.dto.CustomerDto;
 import com.jungche.accounts.dto.ErrorResponseDto;
 import com.jungche.accounts.dto.ResponseDto;
@@ -13,8 +14,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,12 +29,25 @@ import org.springframework.web.bind.annotation.*;
 )
 @RestController
 @RequestMapping(path = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
-@AllArgsConstructor
 @Validated
 @Slf4j
-public class accountsController {
+public class AccountsController {
+
 
     private IAccountsService iAccountsService;
+
+    public AccountsController(IAccountsService iAccountsService) {
+        this.iAccountsService = iAccountsService;
+    }
+
+    @Value("${build.version}")
+    private String buildVersion;
+
+    @Autowired
+    private Environment environment;
+
+    @Autowired
+    private AccountsContactInfoDto accountsContactInfoDto;
 
     @Operation(
             summary = "Create Account REST API",
@@ -160,5 +176,63 @@ public class accountsController {
                     .status(HttpStatus.EXPECTATION_FAILED)
                     .body(new ResponseDto(AccountsConstants.STATUS_417, AccountsConstants.MESSAGE_417_DELETE));
         }
+    }
+
+    @Operation(
+            summary = "Get Build information",
+            description = "Get Build information that is deployed into accounts microservice"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
+    @GetMapping("/build-info")
+    public ResponseEntity<String> getBuildInfo() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(buildVersion);
+    }
+
+
+    @Operation(
+            summary = "Get Java version",
+            description = "Get Java versions details that is installed into accounts microservice"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
+    @GetMapping("/java-version")
+    public ResponseEntity<String> getJavaVersion() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(environment.getProperty("JAVA_HOME"));
+    }
+
+    @GetMapping("/contact-info")
+    public ResponseEntity<AccountsContactInfoDto> getContactInfo() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(accountsContactInfoDto);
     }
 }
