@@ -6,20 +6,14 @@ spring:
   profiles:
     active: "prod"
   datasource:
-    url: jdbc:h2:mem:testdb
-    username: 'sa'
-    password: ''
-    driverClassName: org.h2.Driver
-#  enable h2 console
-  h2:
-    console:
-      enabled: true
+    url: jdbc:mysql://localhost:3306/accountsdb
+    username: root
+    password: root
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
     show-sql: true
-    # create table in database automatically
-    hibernate:
-      ddl-auto: update
+  sql:
+    init:
+      mode: always
   config:
     import: "optional:configserver:http://localhost:8071/"
 #  rabbitmq:
