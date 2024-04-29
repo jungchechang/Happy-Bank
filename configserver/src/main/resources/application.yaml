@@ -6,12 +6,12 @@ spring:
     name: "configserver"
   profiles:
     active: git
-  #    active: native(for path or file location)
-  rabbitmq:
-    host: "localhost"
-    port: 5672
-    username: "guest"
-    password: "guest"
+#    active: native(for path or file location)
+#  rabbitmq:
+#    host: "localhost"
+#    port: 5672
+#    username: "guest"
+#    password: "guest"
 
   cloud:
     config:
