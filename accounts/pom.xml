@@ -44,6 +44,10 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
 <!--		<dependency>-->
 <!--			<groupId>org.springframework.cloud</groupId>-->
 <!--			<artifactId>spring-cloud-starter-bus-amqp</artifactId>-->
@@ -96,7 +100,7 @@
 				<version>3.4.1</version>
 				<configuration>
 					<to>
-						<image>yf94049/${project.artifactId}:s7</image>
+						<image>yf94049/${project.artifactId}:s8</image>
 					</to>
 				</configuration>
 			</plugin>
