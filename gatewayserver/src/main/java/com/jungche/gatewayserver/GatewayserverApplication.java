@@ -46,31 +46,29 @@ public class GatewayserverApplication {
 				.route(p -> p
 						.path("/happybank/cards/**")
 						.filters( f -> f.rewritePath("/happybank/cards/(?<segment>.*)","/${segment}")
-								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
-								.requestRateLimiter(config -> config.setRateLimiter(redisRateLimiter())
-										.setKeyResolver(userKeyResolver())))
+								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
 						.uri("lb://CARDS")).build();
 
 
 	}
 
-	@Bean
-	public Customizer<ReactiveResilience4JCircuitBreakerFactory> defaultCustomizer() {
-		return factory -> factory.configureDefault(id -> new Resilience4JConfigBuilder(id)
-				.circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
-				.timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(4)).build()).build());
-	}
-
-	@Bean
-	public RedisRateLimiter redisRateLimiter() {
-		return new RedisRateLimiter(1, 1, 1);
-	}
-
-	@Bean
-	KeyResolver userKeyResolver() {
-		return exchange -> Mono.justOrEmpty(exchange.getRequest().getHeaders().getFirst("user"))
-				.defaultIfEmpty("anonymous");
-	}
+//	@Bean
+//	public Customizer<ReactiveResilience4JCircuitBreakerFactory> defaultCustomizer() {
+//		return factory -> factory.configureDefault(id -> new Resilience4JConfigBuilder(id)
+//				.circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
+//				.timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(4)).build()).build());
+//	}
+//
+//	@Bean
+//	public RedisRateLimiter redisRateLimiter() {
+//		return new RedisRateLimiter(1, 1, 1);
+//	}
+//
+//	@Bean
+//	KeyResolver userKeyResolver() {
+//		return exchange -> Mono.justOrEmpty(exchange.getRequest().getHeaders().getFirst("user"))
+//				.defaultIfEmpty("anonymous");
+//	}
 
 
 }
