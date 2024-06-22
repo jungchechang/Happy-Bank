@@ -99,7 +99,7 @@
 				<version>3.4.1</version>
 				<configuration>
 					<to>
-						<image>yf94049/${project.artifactId}:s12</image>
+						<image>yf94049/${project.artifactId}:s14</image>
 					</to>
 				</configuration>
 			</plugin>
