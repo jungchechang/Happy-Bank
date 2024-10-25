@@ -1,0 +1,6 @@
+dependencies:
+- name: happybank-common
+  repository: file://../../happybank-common
+  version: 0.1.0
+digest: sha256:d094af16ae82e1873a712d0abaa44d0f98f5baf1e43155b624ce836064f41e7c
+generated: "2024-06-25T15:12:15.767476+08:00"

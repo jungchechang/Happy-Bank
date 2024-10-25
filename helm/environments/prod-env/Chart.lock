@@ -1,0 +1,27 @@
+dependencies:
+- name: happybank-common
+  repository: file://../../happybank-common
+  version: 0.1.0
+- name: configserver
+  repository: file://../../happybank-services/configserver
+  version: 0.1.0
+- name: eurekaserver
+  repository: file://../../happybank-services/eurekaserver
+  version: 0.1.0
+- name: accounts
+  repository: file://../../happybank-services/accounts
+  version: 0.1.0
+- name: cards
+  repository: file://../../happybank-services/cards
+  version: 0.1.0
+- name: loans
+  repository: file://../../happybank-services/loans
+  version: 0.1.0
+- name: gatewayserver
+  repository: file://../../happybank-services/gatewayserver
+  version: 0.1.0
+- name: message
+  repository: file://../../happybank-services/message
+  version: 0.1.0
+digest: sha256:676938c47d1567a6bd857dffabc24f9171e20c00e6a402456c0fa2428f49aa3e
+generated: "2024-06-25T21:02:56.237481+08:00"
