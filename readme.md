@@ -58,7 +58,7 @@ The project also supports deployment with Helm charts. Make sure you have a Kube
    helm install happybank helm/environments/prod-env
 
 ## Screenshot
-### Monitoring using Grfana
+### Monitoring using Grafana
 
 ### Loki & Tempo
 <img src="readme/loki&tempo.png" width=700px>
